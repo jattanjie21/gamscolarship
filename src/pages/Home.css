@@ -1,0 +1,134 @@
+.hero {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: #fff;
+  padding: 72px 0;
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: 40px;
+}
+
+.hero-copy h1 {
+  font-size: clamp(2rem, 4.5vw, 3.1rem);
+  margin-bottom: 16px;
+}
+
+.hero-copy p {
+  font-size: 1.05rem;
+  color: #e3f0e9;
+  max-width: 520px;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.hero-art svg {
+  width: 100%;
+  height: auto;
+}
+
+.section-alt {
+  background: var(--color-primary-light);
+}
+
+.section-cta {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+}
+
+.category-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+
+.category-pill {
+  background: #fff;
+  border: 1.5px solid var(--color-border);
+  padding: 10px 18px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.category-pill:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.why-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 40px;
+  align-items: center;
+}
+
+.why-list {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  color: var(--color-text);
+}
+
+.why-art svg {
+  width: 100%;
+  height: auto;
+}
+
+.smartcv-band {
+  background: var(--color-accent);
+}
+
+.smartcv-band-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.smartcv-band-inner h2,
+.smartcv-band-inner p {
+  color: #22270f;
+}
+
+.smartcv-band-inner p {
+  margin: 0;
+  max-width: 520px;
+}
+
+.cta-band {
+  background: var(--color-primary-dark);
+  color: #fff;
+  text-align: center;
+}
+
+.cta-band-inner p {
+  color: #cfe3d8;
+  max-width: 520px;
+  margin: 0 auto 20px auto;
+}
+
+@media (max-width: 860px) {
+  .hero-inner,
+  .why-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-art {
+    order: -1;
+    max-width: 280px;
+    margin: 0 auto;
+  }
+}

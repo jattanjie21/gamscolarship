@@ -1,0 +1,149 @@
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #ffffff;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 68px;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--color-primary);
+}
+
+.navbar-brand-mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+}
+
+.navbar-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+}
+
+.navbar-toggle-bar,
+.navbar-toggle-bar::before,
+.navbar-toggle-bar::after {
+  content: '';
+  position: absolute;
+  left: 9px;
+  right: 9px;
+  height: 2.5px;
+  background: var(--color-text);
+  border-radius: 2px;
+  transition: transform 0.2s ease, opacity 0.2s ease, top 0.2s ease;
+}
+
+.navbar-toggle-bar {
+  top: 20px;
+}
+
+.navbar-toggle-bar::before {
+  top: -8px;
+}
+
+.navbar-toggle-bar::after {
+  top: 8px;
+}
+
+.navbar-toggle-bar.open {
+  background: transparent;
+}
+
+.navbar-toggle-bar.open::before {
+  top: 0;
+  transform: rotate(45deg);
+}
+
+.navbar-toggle-bar.open::after {
+  top: 0;
+  transform: rotate(-45deg);
+}
+
+.navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.navbar-link {
+  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--color-text);
+}
+
+.navbar-link:hover {
+  background: var(--color-primary-light);
+}
+
+.navbar-link.active {
+  color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+.navbar-cta {
+  margin-left: 10px;
+}
+
+@media (max-width: 860px) {
+  .navbar-toggle {
+    display: block;
+  }
+
+  .navbar-links {
+    position: fixed;
+    top: 68px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #fff;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 18px 20px 32px;
+    gap: 4px;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    overflow-y: auto;
+  }
+
+  .navbar-links.is-open {
+    transform: translateX(0);
+  }
+
+  .navbar-link {
+    padding: 14px 10px;
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+  }
+
+  .navbar-cta {
+    margin: 14px 0 0 0;
+    text-align: center;
+  }
+}
