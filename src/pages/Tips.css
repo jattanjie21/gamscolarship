@@ -1,0 +1,76 @@
+.tips-layout {
+  display: grid;
+  grid-template-columns: 1.6fr 0.9fr;
+  gap: 36px;
+  align-items: start;
+}
+
+.tips-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-top: 16px;
+}
+
+.tip-step {
+  display: flex;
+  gap: 16px;
+}
+
+.tip-step-number {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.tip-step h3 {
+  font-size: 1.02rem;
+  margin-bottom: 4px;
+}
+
+.tip-step p {
+  font-size: 0.92rem;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.tips-sidebar {
+  position: sticky;
+  top: 90px;
+}
+
+.tips-sidebar h3 {
+  font-size: 1rem;
+}
+
+.tips-doc-list {
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.88rem;
+  margin-bottom: 14px;
+}
+
+.tips-sidebar-note {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+@media (max-width: 860px) {
+  .tips-layout {
+    grid-template-columns: 1fr;
+  }
+  .tips-sidebar {
+    position: static;
+  }
+}

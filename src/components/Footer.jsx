@@ -21,6 +21,7 @@ export default function Footer() {
             <li><Link to="/scholarships">Scholarships</Link></li>
             <li><Link to="/study-abroad">Study Abroad</Link></li>
             <li><Link to="/opportunities">Opportunities</Link></li>
+            <li><Link to="/tips">Prep Tips</Link></li>
             <li><Link to="/smartcv">SmartCV</Link></li>
           </ul>
         </div>

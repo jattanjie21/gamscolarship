@@ -12,7 +12,7 @@ function formatDeadline(dateStr) {
 
 export default function ScholarshipCard({ scholarship }) {
   const {
-    id,
+    _id,
     title,
     organization,
     country,
@@ -39,7 +39,7 @@ export default function ScholarshipCard({ scholarship }) {
         <span className="scholarship-card-deadline">
           Deadline: <strong>{formatDeadline(deadline)}</strong>
         </span>
-        <Link to={`/scholarships/${id}`} className="btn btn-outline-dark">
+        <Link to={`/scholarships/${_id}`} className="btn btn-outline-dark">
           View Details
         </Link>
       </div>

@@ -7,6 +7,7 @@ const links = [
   { to: '/scholarships', label: 'Scholarships' },
   { to: '/study-abroad', label: 'Study Abroad' },
   { to: '/opportunities', label: 'Opportunities' },
+  { to: '/tips', label: 'Prep Tips' },
   { to: '/smartcv', label: 'SmartCV' },
   { to: '/about', label: 'About' },
   { to: '/contact', label: 'Contact' },

@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import Seo from '../components/Seo.jsx';
 import ScholarshipCard from '../components/ScholarshipCard.jsx';
-import scholarships from '../data/scholarships.js';
-import opportunities from '../data/opportunities.js';
 import './Home.css';
 
 const categories = [
@@ -17,8 +17,14 @@ const categories = [
 ];
 
 export default function Home() {
-  const featured = scholarships.filter((s) => s.status === 'active').slice(0, 3);
-  const latestOpportunities = opportunities.filter((o) => o.status === 'active').slice(0, 3);
+  const scholarshipsData = useQuery(api.scholarships.list);
+  const opportunitiesData = useQuery(api.opportunities.list);
+  const scholarships = scholarshipsData ?? [];
+  const opportunities = opportunitiesData ?? [];
+
+  const featured = scholarships.slice(0, 3);
+  const latestOpportunities = opportunities.slice(0, 3);
+  const loading = scholarshipsData === undefined;
 
   return (
     <>
@@ -65,11 +71,15 @@ export default function Home() {
             <h2>Featured Scholarships</h2>
             <p>A snapshot of opportunities currently open for applications.</p>
           </div>
-          <div className="grid grid-3">
-            {featured.map((s) => (
-              <ScholarshipCard key={s.id} scholarship={s} />
-            ))}
-          </div>
+          {loading ? (
+            <p className="results-count">Loading scholarships...</p>
+          ) : (
+            <div className="grid grid-3">
+              {featured.map((s) => (
+                <ScholarshipCard key={s._id} scholarship={s} />
+              ))}
+            </div>
+          )}
           <div className="section-cta">
             <Link to="/scholarships" className="btn btn-primary">
               View All Scholarships
@@ -157,7 +167,7 @@ export default function Home() {
           </div>
           <div className="grid grid-3">
             {latestOpportunities.map((o) => (
-              <article key={o.id} className="card">
+              <article key={o._id} className="card">
                 <span className="badge">{o.category}</span>
                 <h3 className="scholarship-card-title" style={{ marginTop: 10 }}>
                   {o.title}

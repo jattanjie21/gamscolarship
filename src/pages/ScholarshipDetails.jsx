@@ -1,6 +1,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import Seo from '../components/Seo.jsx';
-import scholarships from '../data/scholarships.js';
 import './ScholarshipDetails.css';
 
 function formatDeadline(dateStr) {
@@ -15,9 +16,21 @@ function formatDeadline(dateStr) {
 
 export default function ScholarshipDetails() {
   const { id } = useParams();
-  const scholarship = scholarships.find((s) => String(s.id) === String(id));
+  const scholarship = useQuery(api.scholarships.getById, { id });
 
-  if (!scholarship) {
+  // Still loading
+  if (scholarship === undefined) {
+    return (
+      <section className="section">
+        <div className="container">
+          <p>Loading...</p>
+        </div>
+      </section>
+    );
+  }
+
+  // Not found (invalid id, or it was deleted)
+  if (scholarship === null) {
     return <Navigate to="/404" replace />;
   }
 
@@ -39,10 +52,7 @@ export default function ScholarshipDetails() {
 
   return (
     <>
-      <Seo
-        title={`${title} | GamScholarship`}
-        description={description}
-      />
+      <Seo title={`${title} | GamScholarship`} description={description} />
 
       <section className="page-header">
         <div className="container">

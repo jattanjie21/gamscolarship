@@ -1,28 +1,42 @@
 import { useMemo, useState } from 'react';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import Seo from '../components/Seo.jsx';
 import OpportunityCard from '../components/OpportunityCard.jsx';
-import opportunities from '../data/opportunities.js';
 import './Scholarships.css';
 
 const categories = ['Internships', 'Fellowships', 'Competitions', 'Exchanges', 'Research', 'Training'];
 
 export default function Opportunities() {
+  const opportunities = useQuery(api.opportunities.list);
   const [category, setCategory] = useState('');
   const [query, setQuery] = useState('');
 
+  const list = opportunities ?? [];
+  const loading = opportunities === undefined;
+
   const results = useMemo(() => {
-    let list = opportunities.filter((o) => o.status === 'active');
-    if (category) list = list.filter((o) => o.category === category);
+    let filtered = list;
+    if (category) filtered = filtered.filter((o) => o.category === category);
     if (query.trim()) {
       const q = query.trim().toLowerCase();
-      list = list.filter(
+      filtered = filtered.filter(
         (o) =>
           o.title.toLowerCase().includes(q) ||
           o.description.toLowerCase().includes(q)
       );
     }
-    return [...list].sort((a, b) => new Date(a.deadline) - new Date(b.deadline));
-  }, [category, query]);
+    return [...filtered].sort((a, b) => {
+      const dateA = new Date(a.deadline).getTime();
+      const dateB = new Date(b.deadline).getTime();
+      const validA = !Number.isNaN(dateA);
+      const validB = !Number.isNaN(dateB);
+      if (validA && validB) return dateA - dateB;
+      if (validA) return -1;
+      if (validB) return 1;
+      return 0;
+    });
+  }, [list, category, query]);
 
   return (
     <>
@@ -57,20 +71,26 @@ export default function Opportunities() {
             </select>
           </div>
 
-          <p className="results-count">
-            {results.length} opportunit{results.length === 1 ? 'y' : 'ies'} found
-          </p>
-
-          {results.length > 0 ? (
-            <div className="grid grid-3">
-              {results.map((o) => (
-                <OpportunityCard key={o.id} opportunity={o} />
-              ))}
-            </div>
+          {loading ? (
+            <p className="results-count">Loading opportunities...</p>
           ) : (
-            <div className="empty-state">
-              <p>No opportunities match your search right now.</p>
-            </div>
+            <>
+              <p className="results-count">
+                {results.length} opportunit{results.length === 1 ? 'y' : 'ies'} found
+              </p>
+
+              {results.length > 0 ? (
+                <div className="grid grid-3">
+                  {results.map((o) => (
+                    <OpportunityCard key={o._id} opportunity={o} />
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <p>No opportunities match your search right now.</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
