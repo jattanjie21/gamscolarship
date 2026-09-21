@@ -1,8 +1,9 @@
 import { useMemo, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useQuery } from 'convex/react';
+import { api } from '../../convex/_generated/api';
 import Seo from '../components/Seo.jsx';
 import ScholarshipCard from '../components/ScholarshipCard.jsx';
-import scholarships from '../data/scholarships.js';
 import './Scholarships.css';
 
 function unique(arr) {
@@ -10,6 +11,7 @@ function unique(arr) {
 }
 
 export default function Scholarships() {
+  const scholarships = useQuery(api.scholarships.list);
   const [searchParams, setSearchParams] = useSearchParams();
 
   const [query, setQuery] = useState(searchParams.get('q') || '');
@@ -18,10 +20,12 @@ export default function Scholarships() {
   const [funding, setFunding] = useState(searchParams.get('funding') || '');
   const [field, setField] = useState(searchParams.get('field') || '');
 
-  const levels = useMemo(() => unique(scholarships.map((s) => s.level)), []);
-  const countries = useMemo(() => unique(scholarships.map((s) => s.country)), []);
-  const fundings = useMemo(() => unique(scholarships.map((s) => s.funding)), []);
-  const fields = useMemo(() => unique(scholarships.map((s) => s.field)), []);
+  const list = scholarships ?? [];
+
+  const levels = useMemo(() => unique(list.map((s) => s.level)), [list]);
+  const countries = useMemo(() => unique(list.map((s) => s.country)), [list]);
+  const fundings = useMemo(() => unique(list.map((s) => s.funding)), [list]);
+  const fields = useMemo(() => unique(list.map((s) => s.field)), [list]);
 
   useEffect(() => {
     const params = {};
@@ -35,23 +39,23 @@ export default function Scholarships() {
   }, [query, level, country, funding, field]);
 
   const results = useMemo(() => {
-    let list = scholarships.filter((s) => s.status === 'active');
+    let filtered = list;
 
     if (query.trim()) {
       const q = query.trim().toLowerCase();
-      list = list.filter(
+      filtered = filtered.filter(
         (s) =>
           s.title.toLowerCase().includes(q) ||
           s.description.toLowerCase().includes(q) ||
           s.organization.toLowerCase().includes(q)
       );
     }
-    if (level) list = list.filter((s) => s.level === level);
-    if (country) list = list.filter((s) => s.country === country);
-    if (funding) list = list.filter((s) => s.funding === funding);
-    if (field) list = list.filter((s) => s.field === field);
+    if (level) filtered = filtered.filter((s) => s.level === level);
+    if (country) filtered = filtered.filter((s) => s.country === country);
+    if (funding) filtered = filtered.filter((s) => s.funding === funding);
+    if (field) filtered = filtered.filter((s) => s.field === field);
 
-    list = [...list].sort((a, b) => {
+    return [...filtered].sort((a, b) => {
       const dateA = new Date(a.deadline).getTime();
       const dateB = new Date(b.deadline).getTime();
       const validA = !Number.isNaN(dateA);
@@ -61,8 +65,7 @@ export default function Scholarships() {
       if (validB) return 1;
       return 0;
     });
-    return list;
-  }, [query, level, country, funding, field]);
+  }, [list, query, level, country, funding, field]);
 
   const clearFilters = () => {
     setQuery('');
@@ -71,6 +74,8 @@ export default function Scholarships() {
     setFunding('');
     setField('');
   };
+
+  const loading = scholarships === undefined;
 
   return (
     <>
@@ -133,20 +138,26 @@ export default function Scholarships() {
             )}
           </div>
 
-          <p className="results-count">
-            {results.length} scholarship{results.length === 1 ? '' : 's'} found
-          </p>
-
-          {results.length > 0 ? (
-            <div className="grid grid-3">
-              {results.map((s) => (
-                <ScholarshipCard key={s.id} scholarship={s} />
-              ))}
-            </div>
+          {loading ? (
+            <p className="results-count">Loading scholarships...</p>
           ) : (
-            <div className="empty-state">
-              <p>No scholarships match your filters right now. Try adjusting your search.</p>
-            </div>
+            <>
+              <p className="results-count">
+                {results.length} scholarship{results.length === 1 ? '' : 's'} found
+              </p>
+
+              {results.length > 0 ? (
+                <div className="grid grid-3">
+                  {results.map((s) => (
+                    <ScholarshipCard key={s._id} scholarship={s} />
+                  ))}
+                </div>
+              ) : (
+                <div className="empty-state">
+                  <p>No scholarships match your filters right now. Try adjusting your search.</p>
+                </div>
+              )}
+            </>
           )}
         </div>
       </section>
