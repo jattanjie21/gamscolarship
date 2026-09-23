@@ -1,0 +1,34 @@
+.country-card h3 {
+  font-size: 1.15rem;
+  color: var(--color-primary-dark);
+}
+
+.country-card h4 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-text-muted);
+  margin: 14px 0 6px 0;
+}
+
+.country-overview {
+  font-size: 0.92rem;
+}
+
+.country-card ul {
+  padding-left: 18px;
+  margin: 0 0 6px 0;
+  font-size: 0.88rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.country-note {
+  font-size: 0.88rem;
+  color: var(--color-text);
+}
+
+.country-card .btn {
+  margin-top: 14px;
+}
