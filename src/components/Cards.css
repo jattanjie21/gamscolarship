@@ -1,0 +1,47 @@
+.scholarship-card-top {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+
+.badge-sample {
+  background: #fdeceb;
+  color: var(--color-danger);
+}
+
+.scholarship-card-title {
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.scholarship-card-org {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.scholarship-card-desc {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.scholarship-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--color-border);
+  padding-top: 14px;
+}
+
+.scholarship-card-deadline {
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}

@@ -1,0 +1,26 @@
+{
+  "name": "gamscolarship",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "convex:dev": "convex dev",
+    "seed": "node scripts/seed.mjs",
+    "setup:sources": "node scripts/setupSources.mjs",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext js,jsx"
+  },
+  "dependencies": {
+    "convex": "^1.46.0",
+    "fast-xml-parser": "^5.11.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.6"
+  }
+}

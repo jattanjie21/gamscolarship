@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+  <channel>
+    <title>European Education and Culture Executive Agency | Erasmus Mundus Catalogue</title>
+    <link>https://www.eacea.ec.europa.eu/scholarships/erasmus-mundus-catalogue_en</link>
+    <atom:link href="https://www.eacea.ec.europa.eu/node/253/rss_en" rel="self" type="application/rss+xml"/>
+    <description>European Education and Culture Executive Agency | Erasmus Mundus Catalogue</description>
+    <language>en</language>
+    <copyright>© European Union, 1995-2026</copyright>
+    <item>
+  <title>Teaching, designing, managing, foreign Language learning for a Multicultural and inclusive Environment</title>
+  <atom:id>https://www.eacea.ec.europa.eu/node/1381</atom:id>
+  <link>https://telme.hypotheses.org/</link>
+  <guid>https://telme.hypotheses.org/</guid>
+  <description>&lt;p&gt;TELME - Project overview&lt;br&gt;
+&lt;a href="https://erasmus-plus.ec.europa.eu/projects/search/details/101239299"&gt;https://erasmus-plus.ec.europa.eu/projects/search/details/101239299&lt;/a&gt;&lt;/p&gt;
+</description>
+  <pubDate>Mon, 01 Jun 2026 09:33:00 +0200</pubDate>
+<category domain="http://publications.europa.eu/resource/authority/corporate-body">European Education and Culture Executive Agency</category>
+<category domain="Studies">Education (EDU)</category>
+<category domain="Studies">Social Sciences and Humanities (SOC)</category>
+<category domain="Thematic global">Humanities</category>
+<category domain="ECTS Duration">24 months / 120 ECTS</category>
+<category domain="Years for EMJMD">2025</category>
+<category domain="EMJMD Universities">ABO AKADEMI</category>
+<category domain="EMJMD Universities">UNIWERSYTET IM. ADAMA MICKIEWICZA W POZNANIU</category>
+<category domain="EMJMD Universities">UNIVERSITY OF LIMERICK</category>
+<category domain="EMJMD Universities">UNIVERSITE RENNES II</category>
+<category domain="EMJMD Universities">UNIVERSIDAD DE BURGOS</category>
+<category domain="EACEA catalogue">Eramus Mundus catalogue</category>
+<category domain="http://data.europa.eu/uxp/det">education grant</category>
+<category domain="http://data.europa.eu/uxp/det">student mobility</category>
+<category domain="http://data.europa.eu/uxp/det">educational exchange</category>
+</item>
+<item>
+  <title>Master's Programme in Cybersecurity and Assurance</title>
+  <atom:id>https://www.eacea.ec.europa.eu/node/1403</atom:id>
+  <link>https://www.cybersure-master.eu</link>
+  <guid>https://www.cybersure-master.eu</guid>
+  <description>&lt;p&gt;CYBERSURE - Project overview&lt;br&gt;
+&lt;a href="https://erasmus-plus.ec.europa.eu/projects/search/details/101241135"&gt;https://erasmus-plus.ec.europa.eu/projects/search/details/101241135&lt;/a&gt;&lt;/p&gt;
+</description>
+  <pubDate>Tue, 18 Nov 2025 16:45:16 +0100</pubDate>
+<category domain="http://publications.europa.eu/resource/authority/corporate-body">European Education and Culture Executive Agency</category>
+<category domain="Studies">Information Science and Engineering (ENG)</category>
+<category domain="Thematic global">Hard Science</category>
+<category domain="ECTS Duration">24 months / 120 ECTS</category>
+<category domain="Years for EMJMD">2025</category>
+<category domain="EMJMD Universities">NORGES TEKNISK-NATURVITENSKAPELIGE UNIVERSITET NTNU</category>
+<category domain="EMJMD Universities">AALTO KORKEAKOULUSAATIO SR</category>
+<category domain="EMJMD Universities">DANMARKS TEKNISKE UNIVERSITET</category>
+<category domain="EMJMD Universities">TARTU ULIKOOL</category>
+<category domain="EMJMD Universities">EURECOM</category>
+<category domain="EMJMD Universities">KUNGLIGA TEKNISKA HOEGSKOLAN</category>
+<category domain="EMJMD Universities">TECHNISCHE UNIVERSITAET GRAZ</category>
+<category domain="EACEA catalogue">Eramus Mundus catalogue</category>
+<category domain="http://data.europa.eu/uxp/det">education grant</category>
+<category domain="http://data.europa.eu/uxp/det">student mobility</category>
+<category domain="http://data.europa.eu/uxp/det">educational exchange</category>
+</item>
+  </channel>
+</rss>

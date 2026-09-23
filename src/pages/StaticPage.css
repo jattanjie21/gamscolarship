@@ -1,0 +1,16 @@
+.static-content {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.static-content h2 {
+  font-size: 1.25rem;
+  margin-top: 28px;
+}
+
+.static-content ul {
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
