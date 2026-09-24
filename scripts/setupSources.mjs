@@ -34,6 +34,8 @@ const client = new ConvexHttpClient(convexUrl);
 const SOURCES = [
   // Tier 1: genuine official feed, needs zero API keys (see convex/rssIngestion.ts).
   { name: 'erasmus-mundus-catalogue-rss', label: 'Erasmus Mundus Catalogue (EACEA / European Commission) -- official RSS feed', kind: 'api', trustLevel: 'high', notes: 'eacea.ec.europa.eu/node/253/rss_en -- no credentials required' },
+  // Tier 1b: Africa-focused aggregator RSS — discovers listings, then extracts official apply URLs from each post.
+  { name: 'ofa-scholarships-rss', label: 'Opportunities for Africans -- scholarships RSS (aggregator discovery)', kind: 'api', trustLevel: 'medium', notes: 'opportunitiesforafricans.com/category/scholarships/feed/ -- no credentials; official URL extracted from each post' },
   // Tier 2 (fallback): official-site discovery, needs GOOGLE_API_KEY/GOOGLE_CSE_ID/ANTHROPIC_API_KEY.
   { name: 'chevening-official-site', label: 'Chevening Scholarships (UK FCDO) -- official site', kind: 'official_site', trustLevel: 'high', notes: 'chevening.org' },
   { name: 'daad-official-site', label: 'DAAD -- German Academic Exchange Service -- official site', kind: 'official_site', trustLevel: 'high', notes: 'daad.de' },
@@ -59,8 +61,10 @@ async function main() {
   }
   console.log(
     '\nDone. Each source is enabled by default.\n' +
-      '- erasmus-mundus-catalogue-rss starts working immediately (no extra keys needed) once the cron in convex/crons.ts runs, or right now:\n' +
+      '- erasmus-mundus-catalogue-rss starts working immediately (no extra keys needed):\n' +
       '    npx convex run rssIngestion:runErasmusMundusSync\n' +
+      '- ofa-scholarships-rss (Africa aggregator → official URL extraction), no extra keys:\n' +
+      '    npx convex run rssIngestion:runOfaScholarshipsSync\n' +
       '- The *-official-site sources need GOOGLE_API_KEY, GOOGLE_CSE_ID, and ANTHROPIC_API_KEY set first (see README), then:\n' +
       '    npx convex run discovery:runAllDiscovery'
   );

@@ -21,28 +21,43 @@
 // convex/ingestion.ts (matched by sourceId = the programme's own URL)
 // makes repeats a no-op re-ingest rather than a duplicate listing.
 
-import { v } from 'convex/values';
 import { internalAction } from './_generated/server';
 import { internal } from './_generated/api';
 import { parseRssFeed, normalizeErasmusMundusItem } from './sources/erasmusMundusAdapter';
+import {
+  OFA_SCHOLARSHIPS_FEED_URL,
+  OFA_SOURCE_NAME,
+  extractOfficialUrl,
+  normalizeOfaScholarshipItem,
+} from './sources/ofaScholarshipsAdapter';
 
 const FEED_URL = 'https://www.eacea.ec.europa.eu/node/253/rss_en';
 const MAX_PAGES = 6; // ~20 items/page -> up to ~120 programmes per run
 const FETCH_TIMEOUT_MS = 15000;
 const SOURCE_NAME = 'erasmus-mundus-catalogue-rss';
+const OFA_FETCH_TIMEOUT_MS = 15000;
+const OFA_MAX_ITEMS = 15; // feed is typically ~10; hard cap keeps runs bounded
 
-async function fetchPage(page: number): Promise<string | null> {
-  const url = page === 0 ? FEED_URL : `${FEED_URL}?page=${page}`;
+async function fetchText(url: string, timeoutMs: number): Promise<string | null> {
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
-    const res = await fetch(url, { redirect: 'follow', signal: controller.signal });
+    const timeout = setTimeout(() => controller.abort(), timeoutMs);
+    const res = await fetch(url, {
+      redirect: 'follow',
+      signal: controller.signal,
+      headers: { 'User-Agent': 'GamScholarshipBot/1.0 (+https://gamscholarship.online)' },
+    });
     clearTimeout(timeout);
     if (!res.ok) return null;
     return await res.text();
   } catch {
     return null;
   }
+}
+
+async function fetchPage(page: number): Promise<string | null> {
+  const url = page === 0 ? FEED_URL : `${FEED_URL}?page=${page}`;
+  return fetchText(url, FETCH_TIMEOUT_MS);
 }
 
 export const runErasmusMundusSync = internalAction({
@@ -97,6 +112,85 @@ export const runErasmusMundusSync = internalAction({
     const status = errors.length === 0 ? 'success' : accepted > 0 ? 'partial' : 'failed';
     await ctx.runMutation(internal.discovery.recordRunResult, {
       sourceName: SOURCE_NAME,
+      startedAt,
+      status,
+      retrieved,
+      accepted,
+      rejected,
+      error: errors.length > 0 ? errors.slice(0, 5).join(' | ') : undefined,
+    });
+  },
+});
+
+/**
+ * Opportunities for Africans (scholarships category) RSS sync.
+ * Aggregator discovery only — each item’s OFA post is fetched so we can
+ * extract an official apply URL before ingest. Items without a usable
+ * official URL are skipped (counted as rejected).
+ */
+export const runOfaScholarshipsSync = internalAction({
+  args: {},
+  handler: async (ctx) => {
+    const enabledNames: string[] = await ctx.runQuery(internal.discovery.listEnabledSourceNames, {});
+    if (!enabledNames.includes(OFA_SOURCE_NAME)) return;
+
+    const startedAt = new Date().toISOString();
+    let retrieved = 0;
+    let accepted = 0;
+    let rejected = 0;
+    const errors: string[] = [];
+
+    try {
+      const xml = await fetchText(OFA_SCHOLARSHIPS_FEED_URL, OFA_FETCH_TIMEOUT_MS);
+      if (!xml) {
+        errors.push('Failed to fetch OFA scholarships RSS feed.');
+      } else {
+        let items;
+        try {
+          items = parseRssFeed(xml);
+        } catch (err) {
+          items = [];
+          errors.push(`parse feed: ${(err as Error).message}`);
+        }
+
+        retrieved = items.length;
+        for (const item of items.slice(0, OFA_MAX_ITEMS)) {
+          try {
+            const postHtml = await fetchText(item.link, OFA_FETCH_TIMEOUT_MS);
+            if (!postHtml) {
+              rejected++;
+              errors.push(`fetch post failed: ${item.link}`);
+              continue;
+            }
+            const officialUrl = extractOfficialUrl(postHtml, item.title);
+            if (!officialUrl) {
+              rejected++;
+              errors.push(`no official URL: ${item.title.slice(0, 60)}`);
+              continue;
+            }
+            const listing = normalizeOfaScholarshipItem(item, officialUrl);
+            if (!listing) {
+              rejected++;
+              continue;
+            }
+            const result: any = await ctx.runMutation(internal.ingestion.ingestDiscovered, {
+              listing,
+            });
+            if (result?.verificationStatus === 'rejected') rejected++;
+            else accepted++;
+          } catch (err) {
+            errors.push(`ingest ${item.guid}: ${(err as Error).message}`);
+            rejected++;
+          }
+        }
+      }
+    } catch (err) {
+      errors.push((err as Error).message);
+    }
+
+    const status = errors.length === 0 ? 'success' : accepted > 0 ? 'partial' : 'failed';
+    await ctx.runMutation(internal.discovery.recordRunResult, {
+      sourceName: OFA_SOURCE_NAME,
       startedAt,
       status,
       retrieved,

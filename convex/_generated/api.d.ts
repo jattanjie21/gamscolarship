@@ -20,6 +20,7 @@ import type * as rssIngestion from "../rssIngestion.js";
 import type * as scholarships from "../scholarships.js";
 import type * as sources_erasmusMundusAdapter from "../sources/erasmusMundusAdapter.js";
 import type * as sources_manualAdapter from "../sources/manualAdapter.js";
+import type * as sources_ofaScholarshipsAdapter from "../sources/ofaScholarshipsAdapter.js";
 import type * as sources_officialSiteAdapter from "../sources/officialSiteAdapter.js";
 import type * as sources_officialSiteSources from "../sources/officialSiteSources.js";
 import type * as sources_types from "../sources/types.js";
@@ -44,6 +45,7 @@ declare const fullApi: ApiFromModules<{
   scholarships: typeof scholarships;
   "sources/erasmusMundusAdapter": typeof sources_erasmusMundusAdapter;
   "sources/manualAdapter": typeof sources_manualAdapter;
+  "sources/ofaScholarshipsAdapter": typeof sources_ofaScholarshipsAdapter;
   "sources/officialSiteAdapter": typeof sources_officialSiteAdapter;
   "sources/officialSiteSources": typeof sources_officialSiteSources;
   "sources/types": typeof sources_types;

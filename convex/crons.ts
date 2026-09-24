@@ -41,6 +41,14 @@ crons.interval(
   internal.rssIngestion.runErasmusMundusSync
 );
 
+// Opportunities for Africans scholarships RSS — aggregator discovery with
+// official-URL extraction. No API keys. Daily is enough for a ~10-item feed.
+crons.interval(
+  'sync ofa scholarships (RSS)',
+  { hours: 24 },
+  internal.rssIngestion.runOfaScholarshipsSync
+);
+
 // Automated discovery, tier 2 (fallback): searches each enabled
 // official-site source (see convex/sources/officialSiteSources.ts) for new
 // scholarship pages and feeds anything found through the same ingestion
